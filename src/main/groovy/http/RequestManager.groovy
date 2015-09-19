@@ -66,16 +66,34 @@ class RequestManager {
     def processListLinks(List list){
         if(list != null && list.size() > 0) {
             // get each <a> tag
-            for(Element menu: list) {
+            /*
+            for(Element menu in  list) {
                 // output the menu content
-                System.out.print(String.format("[%s]", menu.html()));
+                log.info(String.format("[%s]", menu.html()));
             }
+            */
             System.out.println("\nMenu and its relative path:");
             // query and parse each <a> tags' href attribute values
-            for(Element menu: list) {
+            for(Element menu in list) {
                 // output the attribute values
-                System.out.println(String.format("[%s] href = %s", menu.html(), menu.attr("href")));
+                //log.info(String.format(menu.attr("href")));
+                //log.info(String.format("[%s] href = %s", menu.html(), menu.attr("href")));
             }
         }
     }
+    def generateListOfLinksFromPage(List list){
+        List formattedLinks = []
+        if(list != null && list.size() > 0) {
+            for(Element menu in list) {
+                if(menu.attr('href').size() > 1 && !menu.attr('href').startsWith('http')){
+                    formattedLinks.add(menu.attr('href'))
+                }
+            }
+        }
+        else {
+            formattedLinks.add("Size of list with links is $list.size")
+        }
+        return formattedLinks
+    }
+
 }
