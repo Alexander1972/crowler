@@ -1,0 +1,31 @@
+group 'crowler'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'groovy'
+apply plugin: 'java'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.jsoup:jsoup:1.8.3'
+}
+
+
+task initProject () << {
+    if (hasProperty(initPlugins)) {
+        initPlugins.split(',').each { plug ->
+            project.apply {
+                plugin(plug.trim())
+            }
+        }
+    }
+
+    project.sourceSets*.allSource.srcDirTrees.flatten().dir.each { dir ->
+        dir.mkdirs()
+    }
+}
