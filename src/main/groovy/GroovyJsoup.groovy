@@ -49,14 +49,35 @@ def findAllStreetsInCity(String baseUrl, List cities){
     List formattedLinks = []
     for(city in cities){
         println ">>> looking in city $city"
-        sleep(1000)
-        Document cityDoc = Jsoup.connect(baseUrl+city).get();
+        sleep(4000)
+        Document cityDoc = Jsoup.connect(baseUrl+city+'/streets').get();
         allLinks = cityDoc.select('a')
         for(Element link in allLinks) {
             if(link.attr('href').size() > 1 && !link.attr('href').startsWith('http') && link.attr('href').contains('/streets/')  ){
                 println link.attr('href')
                 formattedLinks.add(link.attr('href'))
             }
+        }
+        //check if there is next page
+        if(cityDoc.select('span.next')){
+            println '>' * 100 + "found Next"
+            def docNext = cityDoc.select('span.next')
+            println docNext
+            Elements pagelink = docNext.select("a[href]")
+            println pagelink.attr('href')
+        }
+        if(cityDoc.select('span.last')){
+            println '>' * 100 + "found Last"
+            def docNext = cityDoc.select('span.last')
+            println docNext
+            Elements pagelink = docNext.select("a[href]")
+            String lastPageLink = pagelink.attr('href')
+            println lastPageLink
+            def pattern = 'page=(.*?)"'
+            def matcher = lastPageLink =~ pattern
+            println matcher.matches()
+            println matcher.size()
+
         }
     }
     println formattedLinks.size()
