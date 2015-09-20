@@ -50,6 +50,7 @@ class RequestManager {
         try {
             // load input from url
             Document doc = Jsoup.connect(baseUrl).get();
+            println doc
             // navigate to <div class="nav-sections"> the parent of all menu items
             Elements navDivTag = doc.getElementsByClass("nav-sections");
             // get the first element since there is only one, and return a list of all sub <a> tag of menu items
@@ -61,6 +62,15 @@ class RequestManager {
         }
 
 
+    }
+
+    def List getLinksHomePage(){
+        List links = []
+        Element link = homeDoc.select("a")
+        println link
+        //String attrLink = link.attr('href')
+        //links.add(link)
+       // return links
     }
 
     def processListLinks(List list){
