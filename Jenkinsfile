@@ -9,6 +9,7 @@ pipeline{
       stage('Build'){
         steps{
           echo "Building ... "
+            shellFunction()
         }
       }
       stage('Deploy'){
@@ -18,3 +19,6 @@ pipeline{
       }
     }
   }
+void shelFunction(){
+    sh 'echo from shell function'
+}
